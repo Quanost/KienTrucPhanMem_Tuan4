@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: khoahoc
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: hoangquan
+      MYSQL_PASSWORD: hoangquan
+
+  springboot-app:
+    build: .
+    image: springboot-mysql-dockercompose
+    ports:
+      - 9090:8080
+    restart: always
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/khoahoc
+      SPRING_DATASOURCE_USERNAME: hoangquan
+      SPRING_DATASOURCE_PASSWORD: hoangquan
